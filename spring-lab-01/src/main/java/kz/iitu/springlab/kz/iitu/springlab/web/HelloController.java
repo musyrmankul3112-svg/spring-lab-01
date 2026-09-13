@@ -25,6 +25,23 @@ public class HelloController {
         );
     }
 
+    @GetMapping("/palindrome")
+    public PalindromeResult palindrome(@RequestParam String text) {
+
+        String normalized = text.replaceAll("\\s+", "").toLowerCase();
+
+        String reversed = new StringBuilder(normalized)
+                .reverse()
+                .toString();
+
+        boolean palindrome = normalized.equals(reversed);
+
+        return new PalindromeResult(text, palindrome);
+    }
+
+    public record PalindromeResult(String text, boolean palindrome) {
+    }
+
     public record Greeting(String message, String owner, LocalDateTime timestamp) {
     }
 
