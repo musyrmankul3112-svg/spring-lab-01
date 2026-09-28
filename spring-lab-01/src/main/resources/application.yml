@@ -8,11 +8,19 @@ server:
 app:
   owner: Zhanerke
   group: IS-2407
+
   mail:
     from: no-reply@iitu.kz
     retry-count: 3
     timeout: 5s
     enabled: true
+
+  upload:
+    max-file-size: 10MB
+    allowed-extensions:
+      - pdf
+      - docx
+      - xlsx
 
 logging:
   level:

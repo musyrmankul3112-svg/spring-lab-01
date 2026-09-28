@@ -1,9 +1,27 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
 server:
   port: 8081
 
 app:
+  owner: Zhanerke
+  group: IS-2407
+
   mail:
     from: dev@iitu.kz
-    retry-count: 1
+    retry-count: 5
     timeout: 10s
     enabled: false
+
+  upload:
+    max-file-size: 20MB
+    allowed-extensions:
+      - pdf
+      - docx
+
+logging:
+  level:
+    kz.iitu: DEBUG

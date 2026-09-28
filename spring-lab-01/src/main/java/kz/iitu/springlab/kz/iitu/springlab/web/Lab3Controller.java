@@ -1,7 +1,7 @@
 package kz.iitu.springlab.kz.iitu.springlab.web;
 
-import kz.iitu.springlab.kz.iitu.springlab.config.AppProperties;
 import kz.iitu.springlab.kz.iitu.springlab.banner.EnvironmentBanner;
+import kz.iitu.springlab.kz.iitu.springlab.config.AppProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,16 +29,18 @@ public class Lab3Controller {
 
     @GetMapping("/config")
     public Map<String, Object> config() {
-        return Map.of(
-                "owner", props.owner(),
-                "group", props.group(),
-                "mailFrom", props.mail().from(),
-                "mailRetryCount", props.mail().retryCount(),
-                "mailTimeout", props.mail().timeout().toString(),
-                "mailEnabled", props.mail().enabled(),
-                "serverPort", environment.getProperty("server.port"),
-                "activeProfiles", Arrays.asList(environment.getActiveProfiles()),
-                "banner", banner.message()
+        return Map.ofEntries(
+                Map.entry("owner", props.owner()),
+                Map.entry("group", props.group()),
+                Map.entry("mailFrom", props.mail().from()),
+                Map.entry("mailRetryCount", props.mail().retryCount()),
+                Map.entry("mailTimeout", props.mail().timeout().toString()),
+                Map.entry("mailEnabled", props.mail().enabled()),
+                Map.entry("maxFileSize", props.upload().maxFileSize().toString()),
+                Map.entry("allowedExtensions", props.upload().allowedExtensions()),
+                Map.entry("serverPort", environment.getProperty("server.port")),
+                Map.entry("activeProfiles", Arrays.asList(environment.getActiveProfiles())),
+                Map.entry("banner", banner.message())
         );
     }
 }
