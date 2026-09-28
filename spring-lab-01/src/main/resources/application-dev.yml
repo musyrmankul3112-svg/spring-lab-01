@@ -1,0 +1,9 @@
+server:
+  port: 8081
+
+app:
+  mail:
+    from: dev@iitu.kz
+    retry-count: 1
+    timeout: 10s
+    enabled: false

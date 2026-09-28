@@ -1,0 +1,9 @@
+server:
+  port: 8082
+
+app:
+  mail:
+    from: prod@iitu.kz
+    retry-count: 2
+    timeout: 30s
+    enabled: true
