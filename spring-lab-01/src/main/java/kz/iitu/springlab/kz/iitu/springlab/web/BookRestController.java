@@ -71,4 +71,28 @@ public class BookRestController {
 
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/stats")
+    public ResponseEntity<?> stats() {
+        List<Book> books = service.findAll(null);
+
+        long count = books.size();
+
+        int earliest = books.stream()
+                .mapToInt(Book::year)
+                .min()
+                .orElse(0);
+
+        int latest = books.stream()
+                .mapToInt(Book::year)
+                .max()
+                .orElse(0);
+
+        return ResponseEntity.ok(
+                java.util.Map.of(
+                        "count", count,
+                        "earliestYear", earliest,
+                        "latestYear", latest
+                )
+        );
+    }
 }

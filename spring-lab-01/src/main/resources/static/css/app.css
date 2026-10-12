@@ -31,3 +31,16 @@ th {
     border: 1px solid #999;
     background: #f0f0f0;
 }
+
+.is-invalid {
+    border: 2px solid red;
+}
+
+.error {
+    color: red;
+}
+
+.alert {
+    color: red;
+    margin-bottom: 15px;
+}
