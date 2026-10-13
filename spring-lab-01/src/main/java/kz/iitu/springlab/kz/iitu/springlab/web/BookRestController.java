@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/books")
@@ -31,30 +32,24 @@ public class BookRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> find(@PathVariable long id) {
-
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book book) {
-
         Book saved = service.create(book);
 
         return ResponseEntity
                 .created(URI.create("/api/books/" + saved.id()))
                 .body(saved);
     }
+
     @PutMapping("/{id}")
     public ResponseEntity<Book> replace(
             @PathVariable long id,
-            @RequestBody Book book)
-    {
+            @RequestBody Book book) {
 
-        if (service.findById(id).isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
+        service.findById(id);
 
         Book updated = service.create(
                 new Book(id, book.title(), book.author(), book.year())
@@ -62,15 +57,16 @@ public class BookRestController {
 
         return ResponseEntity.ok(updated);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
-
         if (!service.delete(id)) {
             return ResponseEntity.notFound().build();
         }
 
         return ResponseEntity.noContent().build();
     }
+
     @GetMapping("/stats")
     public ResponseEntity<?> stats() {
         List<Book> books = service.findAll(null);
@@ -88,7 +84,7 @@ public class BookRestController {
                 .orElse(0);
 
         return ResponseEntity.ok(
-                java.util.Map.of(
+                Map.of(
                         "count", count,
                         "earliestYear", earliest,
                         "latestYear", latest

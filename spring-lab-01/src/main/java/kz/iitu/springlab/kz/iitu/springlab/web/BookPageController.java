@@ -1,4 +1,3 @@
-
 package kz.iitu.springlab.kz.iitu.springlab.web;
 
 import kz.iitu.springlab.catalog.Book;
@@ -34,6 +33,14 @@ public class BookPageController {
         model.addAttribute("title", "Catalogue");
 
         return "books/list";
+    }
+    @GetMapping("/{id}")
+    public String findById(
+            @org.springframework.web.bind.annotation.PathVariable long id,
+            Model model) {
+
+        model.addAttribute("book", service.findById(id));
+        return "books/detail";
     }
 
     @GetMapping("/new")
