@@ -18,7 +18,8 @@
 
     <div class="alert" th:if="${#fields.hasAnyErrors()}">
         <ul>
-            <li th:each="e : ${#fields.allErrors()}" th:text="${e}"></li>
+            <li th:each="e : ${#fields.allErrors()}"
+                th:text="${e}"></li>
         </ul>
     </div>
 
@@ -54,10 +55,12 @@
 
     <div>
         <label for="genre" th:text="#{book.genre}">Genre</label>
-        <select id="genre"
-                th:field="*{genre}"
+        <select id="genre" th:field="*{genre}"
                 th:errorclass="is-invalid">
-            <option value="" th:text="#{book.genre.required}">Choose a genre</option>
+            <option value=""
+                    th:text="#{book.genre.required}">
+                Choose a genre
+            </option>
             <option th:each="g : ${genres}"
                     th:value="${g}"
                     th:text="${g}"></option>
@@ -67,15 +70,14 @@
               th:errors="*{genre}"></span>
     </div>
 
-    <a th:href="@{/books}" th:text="#{form.back}">Back to catalogue</a>
+    <a th:href="@{/books}" th:text="#{form.back}">
+        Back to catalogue
+    </a>
 
-    <button type="submit" th:text="#{form.submit}">Save</button>
-
+    <button type="submit" th:text="#{form.submit}">
+        Save
+    </button>
 </form>
-
-<p>
-    <a th:href="@{/books}">Back to catalogue</a>
-</p>
 
 </body>
 </html>
