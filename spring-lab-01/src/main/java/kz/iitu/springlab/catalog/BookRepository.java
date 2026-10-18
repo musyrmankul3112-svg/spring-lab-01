@@ -1,7 +1,9 @@
 package kz.iitu.springlab.catalog;
 
+import kz.iitu.springlab.kz.iitu.springlab.web.Genre;
 import org.springframework.stereotype.Repository;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -15,9 +17,12 @@ public class BookRepository {
     private final AtomicLong sequence = new AtomicLong();
 
     public BookRepository() {
-        save(new Book(null, "Effective Java", "Joshua Bloch", 2018));
-        save(new Book(null, "Clean Code", "Robert Martin", 2008));
-        save(new Book(null, "Spring in Action", "Craig Walls", 2022));
+        save(new Book(null, "Effective Java", "Joshua Bloch",
+                2018, Genre.OTHER, Instant.now()));
+        save(new Book(null, "Clean Code", "Robert Martin",
+                2008, Genre.OTHER, Instant.now()));
+        save(new Book(null, "Spring in Action", "Craig Walls",
+                2022, Genre.OTHER, Instant.now()));
     }
 
     public List<Book> findAll() {
@@ -37,7 +42,11 @@ public class BookRepository {
                 id,
                 book.title(),
                 book.author(),
-                book.year()
+                book.year(),
+                book.genre(),
+                book.createdAt() != null
+                        ? book.createdAt()
+                        : Instant.now()
         );
 
         storage.put(id, stored);

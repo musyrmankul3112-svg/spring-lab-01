@@ -1,94 +1,76 @@
+
 package kz.iitu.springlab.kz.iitu.springlab.web;
 
 import kz.iitu.springlab.catalog.Book;
 import kz.iitu.springlab.catalog.BookService;
+import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookMapper;
+import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookRequest;
+import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookResponse;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 
-@RestController
+//@RestController
 @RequestMapping("/api/books")
 public class BookRestController {
 
     private final BookService service;
+    private final BookMapper mapper;
 
-    public BookRestController(BookService service) {
+    public BookRestController(BookService service, BookMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<Book> list(
+    public List<BookResponse> list(
             @RequestParam(required = false) String author,
             @RequestParam(defaultValue = "10") int limit) {
 
-        return service.findAll(author)
-                .stream()
-                .limit(limit)
-                .toList();
+        return mapper.toResponseList(
+                service.findAll(author).stream()
+                        .limit(limit)
+                        .toList()
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> find(@PathVariable long id) {
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<BookResponse> find(@PathVariable long id) {
+        Book book = service.findById(id);
+        return ResponseEntity.ok(mapper.toResponse(book));
     }
 
     @PostMapping
-    public ResponseEntity<Book> create(@RequestBody Book book) {
+    public ResponseEntity<BookResponse> create(
+            @Valid @RequestBody BookRequest request) {
+
+        Book book = mapper.toDomain(request);
         Book saved = service.create(book);
 
         return ResponseEntity
                 .created(URI.create("/api/books/" + saved.id()))
-                .body(saved);
+                .body(mapper.toResponse(saved));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> replace(
+    public ResponseEntity<BookResponse> replace(
             @PathVariable long id,
-            @RequestBody Book book) {
+            @Valid @RequestBody BookRequest request) {
 
-        service.findById(id);
+        Book book = mapper.toDomain(request);
+        Book updated = service.update(id, book);
 
-        Book updated = service.create(
-                new Book(id, book.title(), book.author(), book.year())
-        );
-
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(mapper.toResponse(updated));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
-        if (!service.delete(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
+        service.findById(id);
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/stats")
-    public ResponseEntity<?> stats() {
-        List<Book> books = service.findAll(null);
-
-        long count = books.size();
-
-        int earliest = books.stream()
-                .mapToInt(Book::year)
-                .min()
-                .orElse(0);
-
-        int latest = books.stream()
-                .mapToInt(Book::year)
-                .max()
-                .orElse(0);
-
-        return ResponseEntity.ok(
-                Map.of(
-                        "count", count,
-                        "earliestYear", earliest,
-                        "latestYear", latest
-                )
-        );
-    }
 }
+//

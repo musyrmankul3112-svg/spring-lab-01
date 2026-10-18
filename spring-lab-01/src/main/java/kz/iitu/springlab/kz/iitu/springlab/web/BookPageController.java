@@ -83,14 +83,18 @@ public class BookPageController {
             return "books/form";
         }
 
+
         Book saved = service.create(
                 new Book(
                         null,
                         form.getTitle(),
                         form.getAuthor(),
-                        form.getYear()
+                        form.getYear(),
+                        form.getGenre(),
+                        java.time.Instant.now()
                 )
         );
+
 
         redirect.addFlashAttribute(
                 "message",
