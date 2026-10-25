@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{catalog.title}">Catalogue</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+
+<body>
+
+<h1 th:text="#{catalog.title}">Catalogue</h1>
+
+<nav>
+    <a th:href="@{/books(lang='en')}">English</a> |
+    <a th:href="@{/books(lang='ru')}">Русский</a> |
+    <a th:href="@{/books(lang='kk')}">Қазақша</a>
+</nav>
+
+<p>
+    <a th:href="@{/books/new(lang=${#locale.language})}"
+       th:text="#{catalog.add}">Add a new book</a>
+</p>
+
+<form method="get"
+      th:action="@{/books(lang=${#locale.language})}">
+    <label for="author" th:text="#{catalog.author}">Author:</label>
+    <input id="author"
+           name="author"
+           type="text"
+           th:value="${author}">
+
+    <button type="submit" th:text="#{catalog.filter}">Filter</button>
+    <a th:href="@{/books(lang=${#locale.language})}"
+       th:text="#{catalog.reset}">Reset</a>
+</form>
+
+<p th:if="${message}" class="flash" th:text="${message}"></p>
+
+<form id="deleteBooksForm"
+      th:action="@{/books/delete}"
+      method="post"
+      onsubmit="return confirm('Delete selected books?')"
+      hidden>
+</form>
+
+<table>
+    <tr>
+        <th th:text="#{catalog.number}">#</th>
+        <th th:text="#{catalog.bookTitle}">Title</th>
+        <th th:text="#{catalog.bookAuthor}">Author</th>
+        <th th:text="#{catalog.year}">Year</th>
+        <th>Select</th>
+    </tr>
+
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.title}">Title</td>
+        <td th:text="${book.author.name}">Author</td>
+        <td th:text="${book.year}">2020</td>
+        <td>
+            <input type="checkbox"
+                   form="deleteBooksForm"
+                   name="ids"
+                   th:value="${book.id}">
+        </td>
+    </tr>
+</table>
+
+<p>
+    <button type="submit"
+            form="deleteBooksForm"
+            th:text="#{catalog.delete}">
+        Delete selected books
+    </button>
+</p>
+
+</body>
+</html>

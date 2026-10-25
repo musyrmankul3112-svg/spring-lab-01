@@ -1,0 +1,199 @@
+/* 🎀 MILKY PINK & COQUETTE THEME 🎀 */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    padding: 45px 7%;
+    color: #75445b;
+
+    background-color: #fff0f6;
+    background-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110' viewBox='0 0 110 110'%3E%3Ctext x='12' y='30' font-size='20' fill='%23f4a6c7' opacity='.65'%3E%E2%99%A1%3C/text%3E%3Ctext x='65' y='75' font-size='20' fill='%23e9a3c9' opacity='.65'%3E%E2%9C%BF%3C/text%3E%3Ctext x='65' y='25' font-size='17' fill='%23f9b8d5' opacity='.8'%3E%E2%9C%A6%3C/text%3E%3C/svg%3E");
+    background-attachment: fixed;
+}
+
+/* ♡ Заголовки */
+h1 {
+    color: #d63384;
+    font-size: 34px;
+    margin-bottom: 24px;
+    text-shadow: 2px 2px 0 #ffd6e7;
+}
+
+h2, h3 {
+    color: #bd4f83;
+}
+
+/* ♡ Языки */
+body > p:first-of-type {
+    margin-bottom: 25px;
+}
+
+a {
+    color: #d63384;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #a61e61;
+    text-decoration: underline;
+}
+
+/* ♡ Белая карточка формы */
+form {
+    max-width: 620px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 2px solid #ffc6df;
+    border-radius: 24px;
+    box-shadow: 0 12px 35px rgba(214, 51, 132, 0.13);
+}
+
+/* ♡ Подписи */
+label {
+    display: block;
+    margin: 15px 0 7px;
+    color: #a8326d;
+    font-weight: 600;
+}
+
+/* ♡ Поля */
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #f3bfd5;
+    border-radius: 12px;
+    background: #fff8fb;
+    color: #75445b;
+    font-family: inherit;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #e879ac;
+    box-shadow: 0 0 0 4px rgba(232, 121, 172, 0.15);
+}
+
+/* ♡ Розовые кнопки */
+button,
+input[type="submit"],
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #f9a8d4, #e879ac);
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 12px rgba(214, 51, 132, 0.17);
+    transition: 0.2s ease;
+}
+
+button:hover,
+input[type="submit"]:hover,
+.btn:hover {
+    background: linear-gradient(135deg, #ec82b5, #d63384);
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* ♡ Таблица каталога */
+table {
+    width: 100%;
+    margin: 25px 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 10px 28px rgba(214, 51, 132, 0.12);
+}
+
+th, td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid #fce0ed;
+}
+
+th {
+    background: #fbcfe8;
+    color: #8f2458;
+}
+
+tbody tr:hover {
+    background: #fff0f7;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ♡ Успешные сообщения */
+.flash {
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    border: 1px solid #f9a8d4;
+    border-radius: 14px;
+    background: #fdf2f8;
+    color: #9d174d;
+}
+
+/* ♡ Ошибки */
+.alert {
+    padding: 14px;
+    margin-bottom: 18px;
+    border: 1px solid #fda4af;
+    border-radius: 12px;
+    background: #fff1f2;
+    color: #be123c;
+}
+
+.error {
+    display: block;
+    margin-top: 5px;
+    color: #e11d48;
+    font-size: 13px;
+}
+
+.is-invalid {
+    border: 2px solid #fb7185;
+    background: #fff1f2;
+}
+
+/* ♡ Мобильная версия */
+@media (max-width: 700px) {
+    body {
+        padding: 22px 15px;
+    }
+
+    h1 {
+        font-size: 27px;
+    }
+
+    form {
+        padding: 20px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    th, td {
+        padding: 9px;
+    }
+}
