@@ -7,20 +7,20 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-
 import jakarta.validation.Valid;
-
+import kz.iitu.springlab.kz.iitu.springlab.web.Genre;
+import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookMapper;
+import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookRequest;
+import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
-
-import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookMapper;
-import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookRequest;
-import kz.iitu.springlab.kz.iitu.springlab.web.dto.BookResponse;
 
 @Tag(name = "Books", description = "The catalogue of books")
 @RestController
@@ -35,11 +35,13 @@ public class BookApiController {
         this.mapper = mapper;
     }
 
-    @Operation(summary = "Get all books, optionally filtered by author")
+    @Operation(summary = "Get a page of books, optionally filtered by genre")
     @GetMapping
-    public List<BookResponse> getAllBooks(
-            @RequestParam(required = false) String author) {
-        return mapper.toResponseList(service.findAll(author));
+    public Page<BookResponse> getAllBooks(
+            @RequestParam(required = false) Genre genre,
+            @PageableDefault(size = 5, sort = "title") Pageable pageable) {
+        return service.find(genre, pageable)
+                .map(mapper::toResponse);
     }
 
     @Operation(summary = "Find a book by its identifier")

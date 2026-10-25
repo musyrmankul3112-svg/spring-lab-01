@@ -1,6 +1,11 @@
 package kz.iitu.springlab.catalog;
 
+import kz.iitu.springlab.kz.iitu.springlab.web.Genre;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -23,6 +28,22 @@ public class BookService {
                 .toList();
     }
 
+    public Page<Book> find(Genre genre, Pageable pageable) {
+        if (genre == null) {
+            return repository.findAll(pageable);
+        }
+
+        return repository.findByGenre(genre, pageable);
+    }
+
+    public Slice<Book> findSlice(Genre genre, Pageable pageable) {
+        if (genre == null) {
+            return repository.findAllSlice(pageable);
+        }
+
+        return repository.findSliceByGenre(genre, pageable);
+    }
+
     public Book findById(long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
@@ -40,6 +61,7 @@ public class BookService {
 
         return repository.save(book);
     }
+
     public Book update(long id, Book book) {
         Book existing = findById(id);
 
@@ -56,7 +78,12 @@ public class BookService {
     }
 
     public boolean delete(long id) {
-        return repository.deleteById(id);
+        if (!repository.existsById(id)) {
+            return false;
+        }
+
+        repository.deleteById(id);
+        return true;
     }
 
     public List<Book> search(String q) {
@@ -72,6 +99,4 @@ public class BookService {
                                 || book.author().toLowerCase().contains(query))
                 .toList();
     }
-
-
 }
