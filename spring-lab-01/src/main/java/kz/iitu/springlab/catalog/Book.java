@@ -35,6 +35,7 @@ public class Book {
     @Column(nullable = false, length = 20)
     private Genre genre;
 
+    @Column(name = "publication_year")
     private int year;
     private boolean archived;
 

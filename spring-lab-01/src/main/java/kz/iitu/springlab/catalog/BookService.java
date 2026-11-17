@@ -4,6 +4,7 @@ import kz.iitu.springlab.kz.iitu.springlab.web.Genre;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class BookService {
                 .orElseThrow(() -> new BookNotFoundException(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Book create(Book book) {
         boolean duplicate = repository.findAll().stream()
                 .anyMatch(existing ->
@@ -62,6 +64,7 @@ public class BookService {
         return repository.save(book);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public Book update(long id, Book book) {
         Book existing = findById(id);
 
@@ -77,6 +80,7 @@ public class BookService {
         return repository.save(updated);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public boolean delete(long id) {
         if (!repository.existsById(id)) {
             return false;

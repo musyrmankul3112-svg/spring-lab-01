@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign in · Book Catalogue</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="login-page">
+<main class="login-card">
+    <div class="login-mark" aria-hidden="true">✿</div>
+    <p class="login-eyebrow">Book Catalogue</p>
+    <h1>Welcome back</h1>
+    <p class="login-copy">Sign in to continue to your reading corner.</p>
+
+    <p class="alert login-alert" th:if="${param.error}">
+        The username or password was not recognized. Please try again.
+    </p>
+    <p class="flash login-flash" th:if="${param.logout}">
+        You have been signed out safely.
+    </p>
+
+    <form class="login-form" th:action="@{/login}" method="post">
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text"
+               autocomplete="username" placeholder="Your username" required autofocus>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password"
+               autocomplete="current-password" placeholder="Your password" required>
+
+        <button class="login-submit" type="submit">Sign in</button>
+    </form>
+
+    <p class="login-foot">A little calm, one page at a time.</p>
+</main>
+</body>
+</html>
